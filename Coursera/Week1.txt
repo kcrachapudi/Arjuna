@@ -1,0 +1,48 @@
+    Data Format	        Read	                Save
+            csv     	pd.read_csv()	        df.to_csv()
+            json	    pd.read_json()	        df.to_json()
+            excel	    pd.read_excel()	        df.to_excel()
+            hdf	        pd.read_hdf()	        df.to_hdf()
+            sql	        pd.read_sql()	        df.to_sql()
+
+Data Types
+Data has a variety of types. The main types stored in Pandas dataframes are object, float, int, bool, and datetime64. 
+In order to better learn about each attribute, it is always good for us to know the data type of each column. 
+# check the data type of data frame "df" by .dtypes
+As a result, as shown above, it is clear to see that the data type of "symboling" and "curb-weight" are int64, "normalized-losses" is object, 
+and "wheel-base" is float64, etc. These data types can be changed, and we will learn how to accomplish this in a later module.
+Returns a Series with the data type of each column.
+df.dtypes
+
+# check the data type of data frame "df" by .dtypes
+df.dtypes
+As a result, as shown above, it is clear to see that the data type of "symboling" and "curb-weight" are int64, "normalized-losses" is object, 
+and "wheel-base" is float64, etc. These data types can be changed, and we will learn how to accomplish this in a later module.
+
+Describe
+If we would like to get a statistical summary of each column, such as count, column mean value, column standard deviation, etc, then we use the describe method:
+dataframe.describe()
+This method will provide various summary statistics, excluding NaN (Not a Number) values:
+df.describe
+df.describe(include=all)
+Now it provides the statistical summary of all the columns, including object-typed attributes. We can now see how many unique values there are,
+ (top row), and the frequency of the top value in the third row. 
+Some values in the table above show as "NaN", this is because those numbers are not available regarding a particular column type.
+
+Filter Columns
+ You can select the columns of a dataframe by passing the columns name as a list.
+ dataframe[['column1', 'column2', 'column3']]
+ You can apply methods on the filtered columns
+ dataframe[['column1', 'column2', 'column3']].describe()
+
+Info
+Another method you can use to check your dataset is:
+
+dataframe.info
+It provides a concise summary of your DataFrame.
+# look at the info of "df"
+df.info
+Here we are able to see the information of our dataframe, with the top 30 rows and the bottom 30 rows.
+It also shows us the whole data frame has 205 rows and 26 columns in total.
+you can also use the method info as follows
+df.info()

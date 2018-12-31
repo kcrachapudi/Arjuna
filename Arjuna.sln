@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Jishnu", "Jishnu\Jishnu.pyproj", "{81181D97-FF8F-4B06-8D52-5A9892A56026}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "IBMBrain", "IBMBrain\IBMBrain.pyproj", "{A3573DCC-68A6-4120-B4B6-0341B2526CBC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{81181D97-FF8F-4B06-8D52-5A9892A56026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81181D97-FF8F-4B06-8D52-5A9892A56026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81181D97-FF8F-4B06-8D52-5A9892A56026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81181D97-FF8F-4B06-8D52-5A9892A56026}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3573DCC-68A6-4120-B4B6-0341B2526CBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3573DCC-68A6-4120-B4B6-0341B2526CBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {83BB2352-E560-45E3-91C3-EC9D4E63E8FA}
+	EndGlobalSection
+EndGlobal

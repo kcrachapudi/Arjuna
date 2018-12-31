@@ -1,0 +1,37 @@
+DATA WRANGLING
+Introduction to Data Preprocessing
+Let us go through some data pre-processing techniques. If you're unfamiliar with the term, data pre-processing is a necessary step in data analysis. 
+It is the process of converting, or mapping data from one raw form into another format, to make it ready for further analysis. 
+Data pre-processing is often called data cleaning or data wrangling, and there are likely other terms. Here are the topics that we'll be covering in this module. 
+First, we'll show you how to identify and handle missing values. A missing value condition occurs whenever a data entry is left empty. Then we'll cover data formats.
+Data from different sources maybe in various formats, and different units or in various conventions. We will introduce some methods in Python pandas that can standardize the values 
+into the same format, or unit, or convention. After that, we'll cover data normalization. 
+Different columns of numerical data, may have very different ranges, and direct comparison is often not meaningful. 
+Normalization is a way to bring all data into a similar range for more useful comparison. Specifically, we'll focus on the techniques of centering and scaling. 
+And then will introduce data binning. Binning creates bigger categories from a set of numerical values. It is particularly useful for comparison between groups of data.
+And lastly, we'll talk about categorical variables, and show you how to convert categorical values into numeric variables to make statistical modeling easier. 
+In Python, we usually perform operations along columns. Each row of the column represents a sample, i.e a different used car in the database. 
+You access a column by specifying the name of the column. For example, you can access symboling and body style, each of these columns is a pandas series. 
+There are many ways to manipulate data frames in Python. For example, you can add a value to each entry of a column. To add one to each symboling entry, use this command. 
+This changes each value of the data frame column by adding one to the current value.
+
+Deal with Missing Values
+we will introduce the pervasive problem of missing values as well as strategies on what to do when you encounter missing values in your data. 
+When no data value is stored for feature for a particular observation, we say this feature has a missing value. 
+Usually missing value in data set appears as question mark and a zero or just a blank cell. In the example here, the normalized losses feature has a missing value which is represented with NaN. 
+But how can you deal with missing data? There are many ways to deal with missing values and this is regardless of Python, R or whatever tool you use. Of course, each situation is different 
+and should be judged differently. However, these are the typical options you can consider. 
+The first is to check if the person or group that collected the data can go back and find what the actual value should be. 
+Another possibility is just to remove the data where that missing value is found. When you drop data, you could either drop the whole variable or just the single data entry with the 
+missing value. If you don't have a lot of observations with missing data, usually dropping the particular entry is the best. 
+If you're removing data, you want to look to do something that has the least amount of impact. Replacing data is better since no data is wasted. 
+However, it is less accurate since we need to replace missing data with a guess of what the data should be. 
+One standard for placement technique is to replace missing values by the average value of the entire variable.
+As an example, suppose we have some entries that have missing values for the normalized losses column and the column average for entries with data is 4500. 
+While there is no way for us to get an accurate guess of what the missing value is under the normalized losses column should have been, 
+you can approximate their values using the average value of the column 4500. But what if the values cannot be averaged as with categorical variables? 
+For a variable like fuel type, there isn't an average fuel type since the variable values are not numbers. In this case, one possibility is to try using the mode, 
+the most common like gasoline. Finally, sometimes we may find another way to guess the missing data. 
+This is usually because the data gathered knows something additional about the missing data. 
+For example, he may know that the missing values tend to be old cars and the normalized losses of old cars are significantly higher than the average vehicle. 
+And of course, finally, in some cases you may simply want to leave the missing data as missing data. 
