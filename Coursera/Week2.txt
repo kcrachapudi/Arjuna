@@ -35,3 +35,62 @@ the most common like gasoline. Finally, sometimes we may find another way to gue
 This is usually because the data gathered knows something additional about the missing data. 
 For example, he may know that the missing values tend to be old cars and the normalized losses of old cars are significantly higher than the average vehicle. 
 And of course, finally, in some cases you may simply want to leave the missing data as missing data. 
+
+Data Formatting
+we'll look at the problem of data with different formats, units and conventions and the pandas methods that help us deal with these issues. 
+Data is usually collected from different places by different people which may be stored in different formats. Data formatting means bringing data into a 
+common standard of expression that allows users to make meaningful comparisons. As a part of dataset cleaning, data formatting ensures the data is consistent and easily understandable. 
+For example, people may use different expressions to represent New York City, such as uppercase N uppercase Y, uppercase N lowercase y, uppercase N uppercase Y and New York. 
+Sometimes, this unclean data is a good thing to see. For example, if you're looking at the different ways people tend to write New York, then this is exactly the data that you want. 
+Or if you're looking for ways to spot fraud, perhaps writing N.Y. is more likely to predict an anomaly than if someone wrote out New York in full. 
+But perhaps more often than not, we just simply want to treat them all as the same entity or format to make statistical analyses easier down the road. 
+Referring to our used car dataset, there's a feature named city-miles per gallon in the dataset, which refers to a car fuel consumption in miles per gallon unit. 
+However, you may be someone who lives in a country that uses metric units. So, you would want to convert those values to liters per 100 kilometers, the metric version. 
+To transform miles per gallon to liters per 100 kilometers, we need to divide 235 by each value in the city-miles per gallon column. In Python, this can easily be done in one line of code. 
+You take the column and set it to equal to 235, divide it by the entire column. 
+In the second line of code, rename column name from city-miles per gallon to city-liters per 100 kilometers using the data frame rename method. 
+For a number of reasons, including when you import a dataset into Python, the data type may be incorrectly established. 
+For example, here we noticed the assigned data type to the price feature is object. Although the expected data type should really be an integer or float type. 
+It is important for later analysis to explore the features data type and convert them to the correct data types. 
+Otherwise, the developed models later on may behave strangely, and totally valid data may end up being treated like missing data. 
+There are many data types in pandas. Objects can be letters or words. Int64 are integers and floats are real numbers. 
+There are many others that we will not discuss. To identify features data type, in Python we can use the dataframe.dtypes method and check the data type of each variable in a data frame.
+In the case of wrong data types, the method dataframe.astype can be used to convert a data type from one format to another. 
+For example, using astype int for the price column, you can convert the object column into an integer type variable.
+
+Data Normalization
+we'll be talking about data normalization. An important technique to understand in data pre-processing.
+When we take a look at the used car data set, we notice in the data that the feature length ranges from 150-250, while feature width and height ranges from 50-100. 
+We may want to normalize these variables so that the range of the values is consistent. This normalization can make some statistical analyses easier down the road. 
+By making the ranges consistent between variables, normalization enables a fair comparison between the different features, making sure they have the same impact. 
+It is also important for computational reasons. Here is another example that will help you understand why normalization is important. 
+Consider a data set containing two features, age and income. Where age ranges from 0-100, while income ranges from 0-20,000 and higher. 
+Income is about 1,000 times larger than age and ranges from 20,000-500,000. So, these two features are in very different ranges. 
+When we do further analysis, like linear regression for example, the attribute income will intrinsically influence the result more due to its larger value. 
+But this doesn't necessarily mean it is more important as a predictor. So, the nature of the data biases the linear regression model to weigh income more heavily than age. 
+To avoid this, we can normalize these two variables into values that range from zero to one. Compare the two tables at the right. 
+After normalization, both variables now have a similar influence on the models we will build later. There are several ways to normalize data. I will just outline three techniques. 
+The first method called simple feature scaling just divides each value by the maximum value for that feature. This makes the new values range between zero and one. 
+The second method called min-max takes each value X_old subtract it from the minimum value of that feature, then divides by the range of that feature. 
+Again, the resulting new values range between zero and one. The third method is called z-score or standard score. 
+In this formula for each value you subtract the mu which is the average of the feature, and then divide by the standard deviation sigma. 
+The resulting values hover around zero, and typically range between negative three and positive three but can be higher or lower. 
+Following our earlier example, we can apply the normalization method on the length feature. 
+First, we use the simple feature scaling method, where we divide it by the maximum value in the feature. Using the pandas method max, this can be done in just one line of code. 
+Here's the min-max method on the length feature. We subtract each value by the minimum of that column, then divide it by the range of that column. The max minus the min. 
+Finally, we apply the z-score method on length feature to normalize the values. Here we apply the mean and STD method on the length feature. 
+Mean method will return the average value of the feature in the data set, and STD method will return the standard deviation of the features in the data set.
+
+Data Binning
+we'll be talking about binning as a method of data pre-processing. Binning is when you group values together into bins. 
+For example, you can bin age into 0-5, 6-10, 11-15, and so on. Sometimes binning can improve accuracy of the predictive models. 
+In addition, sometimes we use data binning to group a set of numerical values into a smaller number of bins to have a better understanding of the data distribution. 
+As example price. Here is an attribute range from 5,000 to 45,500. Using binning we categorize the price into three bins. Low price, medium price, and high prices. 
+In the actual car data set, price is numerical variable ranging from 5,188 to 45,400. It has 201 unique values. We can categorize them into three bins. 
+Low, medium, and high priced cars. In Python we can easily implement the binning. First we specify that we want three bins. 
+We want to divide the range of the data into three equally sized bins. But the function cut requires an extra bin, so we divide it by four. 
+In the second line, we build the bin array from min value to max value using bin width calculated above. The bin array contains the information on where each bin begins and ends. 
+In the third line, we create labels for each bin. Low, medium, and high. And in the last line we create a column similar to the one with the group price of a car. 
+You can then use histograms to visualize the distribution of the data after they've been divided into bins. 
+This is the histogram that we plotted based on the binning that we applied in the price feature. 
+From the plot, it is clear that most cars have a low price and only very few cars have high price.

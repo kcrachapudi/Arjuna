@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Autos Data Original</h2>
+        {{dfWithHeaders | safe}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        {% for table in autostables %}
+        <h2>Autos Data Original</h2>
+        {{ table | safe}}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

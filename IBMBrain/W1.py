@@ -15,9 +15,8 @@ dfWithoutPrice = None
 
 def ProcessAutosData():
     global FileURL, LocalPath, FileName, FileType, SaveLocal, dfWithHeaders, dfWithoutPrice
-    print("Hi from W1")
-    filereader = FileReader(LocalPath, FileName, FileType, FileURL, str(SaveLocal))
-    dfOriginalAutos = filereader.ReadFile()
+    fileprocessor = FileProcessor(LocalPath, FileName, FileType, FileURL, str(SaveLocal))
+    dfOriginalAutos = fileprocessor.ReadFile()
     DissectAutosData(dfOriginalAutos)
     return
 
@@ -39,16 +38,17 @@ def DissectAutosData(dfOriginal):
     dfOriginal.columns = originalAutosHeaders
     #copy df to new df
     dfWithHeaders = dfOriginal.copy(deep=True)
-    filereader = FileReader(LocalPath,"AutosData85Headers.csv", FileType, None, str(SaveLocal))
-    filereader.SaveLocalFile(dfWithHeaders)
+    fileprocessor = FileProcessor(LocalPath,"AutosData85Headers.csv", FileType, None, str(SaveLocal))
+    fileprocessor.SaveLocalFile(dfWithHeaders)
     #now the head shold show the new header
     #print(dfWithHeaders.head(5))
 
     #Drop missing values along the column 'price    
     dfWithoutPrice = dfWithHeaders.copy(deep=True)
     dfWithoutPrice.dropna(subset=["price"], axis=0)
-    filereader = FileReader(LocalPath,"AutosData85WithoutPrice.csv", FileType, None, str(SaveLocal))
-    filereader.SaveLocalFile(dfWithoutPrice)
+    fileprocessor = None
+    fileprocessor = FileProcessor(LocalPath,"AutosData85WithoutPrice.csv", FileType, None, str(SaveLocal))
+    fileprocessor.SaveLocalFile(dfWithoutPrice)
 
     return
 
