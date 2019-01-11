@@ -7,3 +7,5 @@ pip>=18.1
 setuptools>=40.6.3
 Werkzeug>=0.14.1
 pandas
+matplotlib
+seaborn

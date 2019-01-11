@@ -29,6 +29,7 @@
     <Compile Include="W1.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="W3.py" />
     <Compile Include="W2.py">
       <SubType>Code</SubType>
     </Compile>

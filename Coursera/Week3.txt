@@ -1,20 +1,49 @@
+Exploratory Data Analysis
+In this module, we're going to cover the basics of Exploratory Data Analysis using Python. Exploratory data analysis or in short, 
+EDA is an approach to analyze data in order to summarize main characteristics of the data, gain better understanding of the data set, uncover relationships between different variables, 
+and extract important variables for the problem we're trying to solve. 
+The main question we are trying to answer in this module is, what are the characteristics that had the most impact on the car price? 
+We will be going through a couple of different useful exploratory data analysis techniques in order to answer this question. 
+In this module, you will learn about descriptive statistics, which describe basic features of a data set, and obtain a short summary about the sample and measures of the data; 
+basic of grouping data using GroupBuy, and how this can help to transform our data set; ANOVA, the analysis of variance, 
+a statistical method in which the variation in a set of observations is divided into distinct components; the correlation between different variables; 
+and lastly, advance correlation, where we'll introduce you to various correlations statistical methods namely, Pearson correlation, and correlation heatmaps.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Descriptive Statistics
+we'll be talking about descriptive statistics. When you begin to analyze data, It's important to first explore your data before you spend time building complicated models. 
+One easy way to do so is to calculate some descriptive statistics for your data. Descriptive statistical analysis helps to describe basic features of a dataset
+and obtains a short summary about the sample and measures of the data. Let's show you a couple different useful methods. 
+Describe in Pandas
+One way in which we can do this is by using the describe function in Pandas. Using the describe function and applying it on your data frame, 
+the describe function automatically computes basic statistics for all numerical variables. It shows the mean, the total number of data points, the standard deviation, 
+the quantiles and the extreme values. Any NAN values are automatically skipped in these statistics. This function will give you a clear idea of the distribution of your different variables.
+ You could have also categorical variables in your dataset. These are variables that can be divided up into different categories or groups and have discrete values. 
+ For example; In our dataset we have the drive system as a categorical variable, which consists of the categories; forward wheel drive, rear wheel drive and four wheel drive. 
+ value_counts in pandas
+ One way you can summarize the categorical data is by using the function value_counts. We can change the name of the column to make it easier to read. 
+ We see that we have 118 cars in the front wheel drive category, 75 cars in the rear wheel drive category, and 8 cars in the four wheel drive category. 
+ BoxPlots
+ Box plots are great way to visualize numeric data, since you can visualize the various distributions of the data. 
+ The main features of the box plot shows are the median of the data which represents where the middle data point is. The upper quartile shows where the 75th percentile is. 
+ The lower quartile shows where the 25th percentile is. The data between the upper and lower quartile represents the interquartile range. Next, you have the lower and upper extremes. 
+ These are calculated as 1.5 times the interquartilre range above the 75th percentile and as 1.5 times the IQR below the 25th percentile. 
+ Finally, box plots also display outliers as individual dots that occur outside the upper and lower extremes. 
+ With box plots, you can easily spot outliers and also see the distribution and skewness of the data. Box plots make it easy to compare between groups. 
+ In this example, using box plot we can see the distribution of different categories at the drive wheels feature over price feature. 
+ We can see that the distribution of price between the rear wheel drive and the other categories are distinct, 
+ but the price per front wheel drive and four wheel drive are almost indistinguishable. 
+ ScatterPlots
+ Oftentimes, we tend to see continuous variables in our data. 
+ These data points are numbers contained in some range. For example, in our dataset price and engine size are continuous variables. 
+ What if we want to understand the relationship between engine size and price. Could engine size possibly predict the price of a car? 
+ One good way to visualize this is using a scatter plot. Each observation in the scatter plot is represented as a point. This plot shows the relationship between two variables. 
+ The predictive variable is the variable that you were using to predict an outcome. In this case, our predictive variable is the engine size. 
+ The target variable is the variable that you are trying to predict. In this case, our target variable is the price since this would be the outcome. 
+ In a scatter plot, we typically set the predictive variable on the X axis or horizontal axis and we set the target variable on the Y axis or vertical axis. 
+ In this case, we will thus plot the engine size on the X axis and the price on the Y axis. We are using the Matplotlib function scatter here. 
+ Taking an X and a Y variable. Something to note is that it's always important to label your axes and write a general plot title, so that you know what you're looking at. 
+ Now how is the variable engine size related to price? From the scatter plot, we see that as the engine size goes up the price of the car also goes up. 
+ This is giving us an initial indication that there is a positive linear relationship between these two variables.
 
 GroupBy in Python
 Let us cover the basics of grouping and how this can help to transform our dataset. Assume you want to know, is there any relationship between the different types of drive system, 

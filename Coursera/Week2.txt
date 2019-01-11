@@ -94,3 +94,17 @@ In the third line, we create labels for each bin. Low, medium, and high. And in 
 You can then use histograms to visualize the distribution of the data after they've been divided into bins. 
 This is the histogram that we plotted based on the binning that we applied in the price feature. 
 From the plot, it is clear that most cars have a low price and only very few cars have high price.
+
+Categorical to Quantitative
+we'll discuss how to turn categorical variables into quantitative variables in Python. 
+Most statistical models cannot take in objects or strings as input and for model training only take the numbers as inputs. 
+In the car data set, the fuel type feature as a categorical variable has two values, gas or diesel, which are in string format. 
+For further analysis, Jerry has to convert these variables into some form of numeric format. 
+We encode the values by adding new features corresponding to each unique element in the original feature we would like to encode. 
+In the case where the feature fuel has two unique values, gas and diesel, we create two new features, gas and diesel. 
+When a value occurs in the original feature, we set the corresponding value to one in the new feature. The rest of the features are set to zero. 
+In the fuel example, for car B, the fuel value is Diesel. Therefore we set the feature diesel equal to one and the gas feature to zero. 
+Similarly, for Car D, the fuel value is gas. Therefore we set the feature gas equal to one and the feature diesel equal to zero. This technique is often called "One-hot encoding". 
+In Pandas, we can use get_dummies method to convert categorical variables to dummy variables. In Python, transforming categorical variables to dummy variables is simple. 
+Following the example, pd.get_dummies method gets the fuel type column and creates the data frame dummy_variable_1. 
+The get_dummies method automatically generates a list of numbers, each one corresponding to a particular category of the variable.

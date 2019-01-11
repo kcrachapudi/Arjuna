@@ -43,6 +43,8 @@ def ProcessAutosData(unit):
     fileProcessor = FileProcessor(LocalPath, FileName, FileType, None, None)
     dfWithHeaders = fileProcessor.ReadFile()
     AddDFtoList("Auto Data With Headers", dfWithHeaders)
+    if(unit is not None):
+        unit = int(unit)
     if unit == 1:
         BasicMissingReplacingData()
     elif unit == 2:
@@ -111,61 +113,48 @@ def FormattingAndNormalizingData():
     return
 
 def BinningData():
-    global FileURL, LocalPath, FileName, FileType, SaveLocal, dfWithHeaders, dfWithoutPrice, dfList
-
-    #Drop missing values along the column 'price    
-    dfWithoutPrice = dfWithHeaders.copy(deep=True)
-    #axis=0 drops the rows with na values. if subset is not mentioned then it dropws any row that has any na column value
-    #inplace = True is to reassign the changed dataframe to the original dataframe without a need to assignment
-    #dfWithoutPrice.dropna(subset=["price"], axis=0, inplace = True)   
-    #dfWithoutPrice.dropna(subset=["price"], axis=1, inplace = True)   
-    #AddDFtoList("Auto Data with Deleted Null Prices", dfWithoutPrice)
-
-    dfPriceReplaceNAWithZero = dfWithHeaders.copy(deep = True)
-    #print(dfPriceReplaceNAWithMean.dtypes)
-    #The price column is an object column so to do any calculations on it we have to convert it to numeric 
-    # convert from object to string to numeric
-    #dfPriceReplaceNAWithMean["price"] = dfPriceReplaceNAWithMean["price"].astype(str).astype(int)
-    #The values all have to be numeric for the conversion to work. 
-    #We can first replace the missing values with a default and then do conversions if needed
-    dfPriceReplaceNAWithZero["price"].replace('?', 0, inplace = True)
-    dfPriceReplaceNAWithZero["price"].replace(np.nan, 0, inplace = True)
-    AddDFtoList("Auto Data with missing Price replaced with Zero", dfPriceReplaceNAWithZero)
-    
-    dfPriceReplaceNAWithMean = dfPriceReplaceNAWithZero.copy(deep = True)
-    dfPriceReplaceNAWithMean["price"] = dfPriceReplaceNAWithMean["price"].astype(int)
-    meanprice = dfPriceReplaceNAWithMean["price"].mean().astype(int)
-    dfPriceReplaceNAWithMean["price"].replace(0, meanprice, inplace = True)
-    AddDFtoList("Auto Data with missing Price replaced with Mean", dfPriceReplaceNAWithMean)
+    global dfWithHeaders
+    # Data Binning
+    #Binning is Grouping of values into Bins; Converts Numeric to Categorical variables; Group a numeric set of values into a set of bins
+    # price has a distribution from 4000 to 50000 roughly. Instead we could bin them into Low, Medium and High
+    dfPriceBinned = dfWithHeaders.copy(deep=True)
+    #cleanup the price column by converting any ? to 0
+    dfPriceBinned["price"].replace('?', 0, inplace = True)
+    #Convert the price column from object to numeric
+    dfPriceBinned["price"] = pd.to_numeric(dfPriceBinned["price"], "coerce")
+    #Convert any NaN values that were coerced to 0
+    dfPriceBinned["price"].replace(np.nan, 0, inplace = True)
+    #Ensure that the price column is integer
+    dfPriceBinned["price"] = dfPriceBinned["price"].astype("int64")
+    maxprice = dfPriceBinned["price"].max()
+    minprice = dfPriceBinned["price"].min()
+    pricebinwidth = int((maxprice + 10 - minprice)/3) #The number of bins required (Low, Med, High) 
+    pricebins = range(minprice-5, maxprice+5, pricebinwidth) #Create the bin values
+    print("maxprice " + str(maxprice))
+    print("minprice " + str(minprice))
+    print("pricebinwidth " + str(pricebinwidth))
+    print("pricebins " + str(pricebins))
+    pricebinnames = ["Low", "Medium", "High"] #Create bin names
+    dfPriceBinned["price-binned"] = pd.cut(dfPriceBinned["price"], pricebins, labels = pricebinnames)
+    AddDFtoList("Auto Data with price-binned", dfPriceBinned)
     return
 
 def CategoricalToQuantitativeData():
-    global FileURL, LocalPath, FileName, FileType, SaveLocal, dfWithHeaders, dfWithoutPrice, dfList
-
-    #Drop missing values along the column 'price    
-    dfWithoutPrice = dfWithHeaders.copy(deep=True)
-    #axis=0 drops the rows with na values. if subset is not mentioned then it dropws any row that has any na column value
-    #inplace = True is to reassign the changed dataframe to the original dataframe without a need to assignment
-    #dfWithoutPrice.dropna(subset=["price"], axis=0, inplace = True)   
-    #dfWithoutPrice.dropna(subset=["price"], axis=1, inplace = True)   
-    #AddDFtoList("Auto Data with Deleted Null Prices", dfWithoutPrice)
-
-    dfPriceReplaceNAWithZero = dfWithHeaders.copy(deep = True)
-    #print(dfPriceReplaceNAWithMean.dtypes)
-    #The price column is an object column so to do any calculations on it we have to convert it to numeric 
-    # convert from object to string to numeric
-    #dfPriceReplaceNAWithMean["price"] = dfPriceReplaceNAWithMean["price"].astype(str).astype(int)
-    #The values all have to be numeric for the conversion to work. 
-    #We can first replace the missing values with a default and then do conversions if needed
-    dfPriceReplaceNAWithZero["price"].replace('?', 0, inplace = True)
-    dfPriceReplaceNAWithZero["price"].replace(np.nan, 0, inplace = True)
-    AddDFtoList("Auto Data with missing Price replaced with Zero", dfPriceReplaceNAWithZero)
-    
-    dfPriceReplaceNAWithMean = dfPriceReplaceNAWithZero.copy(deep = True)
-    dfPriceReplaceNAWithMean["price"] = dfPriceReplaceNAWithMean["price"].astype(int)
-    meanprice = dfPriceReplaceNAWithMean["price"].mean().astype(int)
-    dfPriceReplaceNAWithMean["price"].replace(0, meanprice, inplace = True)
-    AddDFtoList("Auto Data with missing Price replaced with Mean", dfPriceReplaceNAWithMean)
+    global dfWithHeaders
+    dfCatToQuant = dfWithHeaders.copy(deep=True)
+    # Categorical to Quantitative
+    # For example Category Fuel has Gas or Diesel. Converting this would get two new (dummy) columns gas and diesel 
+    # If the original Fuel category had "Gas" then the new column "gas" would have 1 and "diesel" would have 0
+    # This is called "One Hot Encoding"
+    # pandas.get_dummies() is used to do the conversion from categorical to dummy variables
+    #This just returns a new dataframe with the dummy columns
+    dfDummy = pd.get_dummies(dfCatToQuant["fuel-type"])
+    print(dfDummy)
+    #To add the new columns to the existing dataframe use the concat function
+    dfCatToQuant = pd.concat([dfCatToQuant, pd.get_dummies(dfCatToQuant["fuel-type"], prefix="fuel-type-")], axis = 1)
+    #Drop the original fuel-type column as we don't need it anymore. keeping it would be like having dependency colums in the same table
+    dfCatToQuant.drop(["fuel-type"], axis = 1, inplace = True)
+    AddDFtoList("Auto Data Fuel Categorical to Quantitative", dfCatToQuant)
     return
 
 def AddDFtoList(dfName, df):

@@ -1,12 +1,9 @@
-"""
-Routes and views for the flask application.
-"""
-
 from datetime import datetime
 from flask import render_template
 from Jishnu import app
 import W1
 import W2
+import W3
 import X
 
 @app.route('/')
@@ -61,17 +58,14 @@ def IBMWeek2(id):
         dfTables = W2.dfTables
     )
 
-@app.route('/IBMWeek3')
-def IBMWeek3():
-    #W2.ProcessAutosData()
-    #dfTables = []
-    #for df in W2.dfList:
-     #   dfTables.append(df.to_html(header="true", classes="table table-striped table-bordered table-condensed table-responsive", index = False))
-
+@app.route('/IBMWeek3/<id>')
+def IBMWeek3(id):
+    W3.ProcessAutosData(id)
     return render_template(
         'IBMWeek3.html',
-        #dfList = W2.dfList
-        #dfTables = dfTables
+        dfInfos = W3.dfInfos,
+        dfTables = W3.dfTables,
+        graphs = W3.graphs
     )
 
 @app.route('/IBMWeek4')

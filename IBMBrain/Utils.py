@@ -1,4 +1,45 @@
 import pandas as pd
+import numpy as np
+import matplotlib
+matplotlib.use('agg')
+import matplotlib.pyplot as plt
+import seaborn as sns
+import io
+import base64
+from pandas.compat import StringIO
+
+class DataFramer():
+    def __init__(self):
+        pass
+
+    def DataFrameInfo(self, dfData = None):
+        info = ""
+        if(dfData is None):
+            dfData = pd.DataFrame(np.random.randn(100, 3), columns =['A', 'B', 'C'])
+        a = StringIO()
+        dfData.info(buf = a)  
+        # Example to convert to html
+        contents = a.getvalue().split('\n')
+        for lines in contents:
+            info = info + "<pre>" + lines + "</pre>"
+        return info
+
+    def CleanNumericColumn(self, dfData, col, coltype = None):
+        if(coltype is None):
+            coltype = "int64"
+
+        #cleanup the col column by converting any ? to 0
+        dfData[col].replace('?', 0, inplace = True)
+        #Convert the col column from object to numeric
+        dfData[col] = pd.to_numeric(dfData[col], "coerce")
+        #Convert any NaN values that were coerced to 0
+        dfData[col].replace(np.nan, 0, inplace = True)
+        if(coltype == "int" or coltype == "Integer" or coltype == "int64" ):
+            #Ensure that the col column is integer
+            dfData[col] = dfData[col].astype(coltype)
+
+        return dfData
+
 class FileProcessor:
     LocalPath = ""
     FileName = ""
@@ -49,13 +90,48 @@ class FileProcessor:
             pass
         return
 
+class Charter:
+    def BuildGraph(self, x_coordinates, y_coordinates, type="png"):
+        img = io.BytesIO()
+        plt.plot(x_coordinates, y_coordinates)
+        plt.savefig(img, format='png')
+        img.seek(0)
+        graph_url = base64.b64encode(img.getvalue()).decode()
+        plt.close()
+        return 'data:image/png;base64,{}'.format(graph_url)
+
+    def BoxPlot(self, xaxis = None, yaxis = None, dfData = None, imgformat="png"):
+        img = io.BytesIO()
+        #sns.boxplot(x=xaxis, y=yaxis, data=dfData)
+        plt.boxplot(dfData[xaxis])
+        plt.savefig(img, format = imgformat)
+        img.seek(0)
+        graph_url = base64.b64encode(img.getvalue()).decode()
+        plt.close()
+        return 'data:image/png;base64,{}'.format(graph_url)
+
+    def ScatterPlot(self, xaxis, yaxis, dfData, imgformat="png"):
+        img = io.BytesIO()
+        #required conversion to float as there is a call to np.sqrt internally that can only handle floats
+        dfData[xaxis] = dfData[xaxis].astype("float")
+        dfData[yaxis] = dfData[yaxis].astype("float")
+        plt.scatter(dfData[xaxis], dfData[yaxis])
+        plt.savefig(img, format = imgformat)
+        img.seek(0)
+        graph_url = base64.b64encode(img.getvalue()).decode()
+        plt.close()
+        return 'data:image/png;base64,{}'.format(graph_url)
+
 class HTMLHelper:
     DefaultTableClasses = "table table-striped table-bordered table-condensed table-responsive"
-    def GetHTMLTableFromDataFrame(self, df, styleclasses = None):     
+    def GetHTMLTableFromDataFrame(self, df, styleclasses = None, indexer = False):     
         dfTable = None
         if df is not None:
             if styleclasses is None:
-                dfTable = df.to_html(header="true", classes = self.DefaultTableClasses, index = False)
+                dfTable = df.to_html(header="true", classes = self.DefaultTableClasses, index = indexer)
             else:
-                dfTable = df.to_html(header="true", classes = styleclasses, index = False)
+                dfTable = df.to_html(header="true", classes = styleclasses, index = indexer)
         return dfTable
+
+    def AddMarkup(htmlString):
+        return 
