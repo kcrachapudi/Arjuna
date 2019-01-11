@@ -75,14 +75,17 @@ def DescriptiveStatistics():
     #Box plot of price column
     dfNumCleaned = dataframer.CleanNumericColumn(dfData = dfNumCleaned, col = "price", coltype = "int64")
     xaxis = "price"
-    yaxis = None
-    boxplot = charter.BoxPlot(xaxis, yaxis, dfNumCleaned, "png")
+    boxplot = charter.BoxPlot(xaxis, dfNumCleaned, "png")
     AddGraphToList(boxplot)
     #Box plot of engine-size column    
     dfNumCleaned = dataframer.CleanNumericColumn(dfData = dfNumCleaned, col = "engine-size", coltype = "int64")
     xaxis = "engine-size"
-    yaxis = None
-    boxplot2 = charter.BoxPlot(xaxis, yaxis, dfNumCleaned, "png")
+    boxplot2 = charter.BoxPlot(xaxis, dfNumCleaned, "png")
+    AddGraphToList(boxplot)
+    #Boxplot with two variables
+    xaxis = "drive-wheels"
+    yaxis = "price"
+    boxplot2 = charter.BoxPlot2(xaxis, yaxis, dfNumCleaned, "png")
     AddGraphToList(boxplot2)
     #Show basic Information about new cleaned DataFrame
     info2 = dataframer.DataFrameInfo(dfNumCleaned)

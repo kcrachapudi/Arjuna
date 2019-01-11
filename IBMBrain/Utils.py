@@ -100,10 +100,19 @@ class Charter:
         plt.close()
         return 'data:image/png;base64,{}'.format(graph_url)
 
-    def BoxPlot(self, xaxis = None, yaxis = None, dfData = None, imgformat="png"):
+    def BoxPlot(self, xaxis = None, dfData = None, imgformat="png"):
         img = io.BytesIO()
         #sns.boxplot(x=xaxis, y=yaxis, data=dfData)
         plt.boxplot(dfData[xaxis])
+        plt.savefig(img, format = imgformat)
+        img.seek(0)
+        graph_url = base64.b64encode(img.getvalue()).decode()
+        plt.close()
+        return 'data:image/png;base64,{}'.format(graph_url)
+
+    def BoxPlot2(self, xaxis = None, yaxis = None, dfData = None, imgformat="png"):
+        img = io.BytesIO()
+        sns.boxplot(x=xaxis, y = yaxis, data=dfData)
         plt.savefig(img, format = imgformat)
         img.seek(0)
         graph_url = base64.b64encode(img.getvalue()).decode()
@@ -116,6 +125,9 @@ class Charter:
         dfData[xaxis] = dfData[xaxis].astype("float")
         dfData[yaxis] = dfData[yaxis].astype("float")
         plt.scatter(dfData[xaxis], dfData[yaxis])
+        plt.title("Scatter Plot of " + xaxis + " vs " + yaxis)
+        plt.xlabel(xaxis)
+        plt.ylabel(yaxis)
         plt.savefig(img, format = imgformat)
         img.seek(0)
         graph_url = base64.b64encode(img.getvalue()).decode()
