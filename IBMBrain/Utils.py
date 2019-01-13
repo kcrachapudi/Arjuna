@@ -134,6 +134,27 @@ class Charter:
         plt.close()
         return 'data:image/png;base64,{}'.format(graph_url)
 
+    def HeatMap(self, dfData = None, imgformat="png"):
+        img = io.BytesIO()
+        plt.pcolor(dfData, cmap = "RdBu")
+        plt.colorbar()
+        plt.savefig(img, format = imgformat)
+        img.seek(0)
+        graph_url = base64.b64encode(img.getvalue()).decode()
+        plt.close()
+        return 'data:image/png;base64,{}'.format(graph_url)
+
+    def HeatMapSNS(self, dfData = None, imgformat="png"):
+        img = io.BytesIO()
+        g = sns.heatmap(dfData, cmap="RdBu", cbar=True)
+        #The set_facecolor is optional and use it to set empty values 
+        g.set_facecolor("black")
+        plt.savefig(img, format = imgformat)
+        img.seek(0)
+        graph_url = base64.b64encode(img.getvalue()).decode()
+        plt.close()
+        return 'data:image/png;base64,{}'.format(graph_url)
+
 class HTMLHelper:
     DefaultTableClasses = "table table-striped table-bordered table-condensed table-responsive"
     def GetHTMLTableFromDataFrame(self, df, styleclasses = None, indexer = False):     

@@ -40,7 +40,7 @@ def ProcessAutosData(unit):
     if unit == 1:     
         DescriptiveStatistics()
     elif unit == 2:
-        FormattingAndNormalizingData()
+        GroupBy()
     elif unit == 3:
         BinningData()
     elif unit == 4:
@@ -101,31 +101,54 @@ def DescriptiveStatistics():
     AddGraphToList(scatterplot)
     return
 
-def FormattingAndNormalizingData():
+def GroupBy():
+    #Groupby can be applied on Categorical variables; Group data into categories; Group by single or multiple variables
     global dfWithHeaders
-
-    #Convert city-mpg to L/100km in the car dataset as it is used in many countries
-    dfL100Km = dfWithHeaders.copy(deep=True)
-    dfL100km["city-L/100km"] = 235/dfWithHeaders["city-mpg"]
-    AddDFtoList("Auto Data with city-mpg and city-L/100KM", dfL100Km)
-    #You can also convert the same column and rename it if you don't need to keep both
-    #dfL100km["city-mpg"] = 235/dfWithHeaders["city-mpg"]
-    #dfL100km.rename(columns={"city-mpg":"city-L/100Km"}, inplace = True)
-
-    #Data Normalization
-
-    #Simple Feature Scaling Values range between 0 to 1
-    #xnew = xold/xmax
-    dfNormalization = dfWithHeaders.copy(deep=True)
-    dfNormalization["length-simplefeaturescaling"] = dfNormalization["length"] / dfNormalization["length"].max()
-    #Min Max  Values range between 0 to 1
-    #xnew  = (xold-xmin)/(xmax-xmin)
-    dfNormalization["length-minmax"] = (dfNormalization["length"] - dfNormalization["length"].min())/(dfNormalization["length"].max() - dfNormalization["length"].min())
-    #Z-score Values range between -3 to 3 typically but could vary
-    #xnew = (xold-xavg)/xstd
-    dfNormalization["length-zscore"] = (dfNormalization["length"] - dfNormalization["length"].mean())/(dfNormalization["length"].std())
-
-    AddDFtoList("Simple Feature Scaling Normalization of length", dfNormalization)
+    dataframer = DataFramer()
+    htmlHelper = HTMLHelper()
+    charter = Charter()
+    #Get DataFrame and Clean Numeric Data
+    dfNumCleaned = dfWithHeaders.copy(deep=True)
+    dfNumCleaned = dataframer.CleanNumericColumn(dfData = dfNumCleaned, col = "price", coltype = "int64")
+    dfNumCleaned = dataframer.CleanNumericColumn(dfData = dfNumCleaned, col = "engine-size", coltype = "int64")
+    info = dataframer.DataFrameInfo(dfNumCleaned)
+    AddDFInfoToList(info)
+    #Get the columns we are interested in
+    dfFiltered = dfNumCleaned["drive-wheels"].to_frame()
+    dfFiltered["body-style"] = dfNumCleaned["body-style"]
+    dfFiltered["price"] = dfNumCleaned["price"]
+    info2 = dataframer.DataFrameInfo(dfFiltered)
+    AddDFInfoToList(info2)
+    #GROUPBY AVERAGE
+    #One column grouping
+    dfGroup = dfFiltered.groupby(["drive-wheels"], as_index = False).mean()
+    AddDFtoList("Grouped by drive-wheels Dataframe", dfGroup, True)
+    #This is a sub group within a group
+    dfGroup2 = dfFiltered.groupby(["drive-wheels", "body-style"], as_index = False).mean()
+    AddDFtoList("Grouped by drive-wheels and sub grouped on body-style", dfGroup2, True)
+    #GROUPBY TOTAL 
+    #One column grouping
+    dfGroup = dfFiltered.groupby(["drive-wheels"], as_index = False).sum()
+    AddDFtoList("Grouped by drive-wheels Dataframe", dfGroup, True)
+    #This is a sub group within a group
+    dfGroup2 = dfFiltered.groupby(["drive-wheels", "body-style"], as_index = False).sum()
+    #The Groupby subgrouped grid only shows data if it is existing
+    AddDFtoList("Grouped by drive-wheels and sub grouped on body-style", dfGroup2, True)
+    # PIVOT To show the same grouped data on 2 variables in a rectangular grid use the pivot method
+    #The Pivot grid forces to show all data even if it is empty
+    dfPivot = dfGroup2.pivot(index = "drive-wheels", columns = "body-style")
+    #The Pivot grid shows numcolA * numcolB number of cells in the grid
+    #The Pivot grid is similar to an Excel Spreadsheet
+    AddDFtoList("Pivot the sub-grouped df into a rectangular grid", dfPivot, True)
+    #HEATMAP
+    #Heatmap takes a rectangular grid of data (pivot grid or excel)
+    #It assigns a color intensity based on the value on the grid
+    #Plot the target variable over multiple variables
+    heatmap = charter.HeatMap(dfData = dfPivot)
+    AddGraphToList(heatmap)
+    #Seaborn heatmap
+    heatmap2 = charter.HeatMapSNS(dfData = dfPivot)
+    AddGraphToList(heatmap2)
     return
 
 def BinningData():
