@@ -155,6 +155,15 @@ class Charter:
         plt.close()
         return 'data:image/png;base64,{}'.format(graph_url)
 
+    def RegPlot(self, xaxis = None, yaxis = None, dfData = None, imgformat = "png" ):
+        img = io.BytesIO()
+        sns.regplot(x = xaxis, y = yaxis, data = dfData)
+        plt.savefig(img, format = imgformat)
+        img.seek(0)
+        graph_url = base64.b64encode(img.getvalue()).decode()
+        plt.close()
+        return 'data:image/png;base64,{}'.format(graph_url)
+        
 class HTMLHelper:
     DefaultTableClasses = "table table-striped table-bordered table-condensed table-responsive"
     def GetHTMLTableFromDataFrame(self, df, styleclasses = None, indexer = False):     

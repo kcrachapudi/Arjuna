@@ -42,9 +42,9 @@ def ProcessAutosData(unit):
     elif unit == 2:
         GroupBy()
     elif unit == 3:
-        BinningData()
+        Correlation()
     elif unit == 4:
-        CategoricalToQuantitativeData()
+        CorrelationStatistics()
     ProcessHTML()
     return
 
@@ -151,34 +151,41 @@ def GroupBy():
     AddGraphToList(heatmap2)
     return
 
-def BinningData():
+def Correlation():
+    #Correlation measures to what extent different variables are interdependent.
     global dfWithHeaders
-    # Data Binning
-    #Binning is Grouping of values into Bins; Converts Numeric to Categorical variables; Group a numeric set of values into a set of bins
-    # price has a distribution from 4000 to 50000 roughly. Instead we could bin them into Low, Medium and High
-    dfPriceBinned = dfWithHeaders.copy(deep=True)
-    #cleanup the price column by converting any ? to 0
-    dfPriceBinned["price"].replace('?', 0, inplace = True)
-    #Convert the price column from object to numeric
-    dfPriceBinned["price"] = pd.to_numeric(dfPriceBinned["price"], "coerce")
-    #Convert any NaN values that were coerced to 0
-    dfPriceBinned["price"].replace(np.nan, 0, inplace = True)
-    #Ensure that the price column is integer
-    dfPriceBinned["price"] = dfPriceBinned["price"].astype("int64")
-    maxprice = dfPriceBinned["price"].max()
-    minprice = dfPriceBinned["price"].min()
-    pricebinwidth = int((maxprice + 10 - minprice)/3) #The number of bins required (Low, Med, High) 
-    pricebins = range(minprice-5, maxprice+5, pricebinwidth) #Create the bin values
-    print("maxprice " + str(maxprice))
-    print("minprice " + str(minprice))
-    print("pricebinwidth " + str(pricebinwidth))
-    print("pricebins " + str(pricebins))
-    pricebinnames = ["Low", "Medium", "High"] #Create bin names
-    dfPriceBinned["price-binned"] = pd.cut(dfPriceBinned["price"], pricebins, labels = pricebinnames)
-    AddDFtoList("Auto Data with price-binned", dfPriceBinned)
+    dataframer = DataFramer()
+    htmlHelper = HTMLHelper()
+    charter = Charter()
+    #Get DataFrame and Clean Numeric Data
+    dfNumCleaned = dfWithHeaders.copy(deep=True)
+    dfNumCleaned = dataframer.CleanNumericColumn(dfData = dfNumCleaned, col = "price", coltype = "int64")
+    dfNumCleaned = dataframer.CleanNumericColumn(dfData = dfNumCleaned, col = "engine-size", coltype = "int64")
+    dfNumCleaned = dataframer.CleanNumericColumn(dfData = dfNumCleaned, col = "highway-mpg", coltype = "int64")
+    dfNumCleaned = dataframer.CleanNumericColumn(dfData = dfNumCleaned, col = "peak-rpm", coltype = "int64")
+    info = dataframer.DataFrameInfo(dfNumCleaned)
+    AddDFInfoToList(info)
+    #Lung Canceer and Smoking are correlated; Rain and Umbrella usage are interdependent(correlated)
+    #CORRELATION DOES NOT IMPLY CAUSATION
+    #Positive Linear Relationship
+    #Correlation between engine-size and price
+    chart1 = charter.RegPlot(xaxis = "engine-size", yaxis = "price", dfData = dfNumCleaned)
+    #There is a line in the chart called the Regression line that indicates the relationship between the two variables
+    AddGraphToList(chart1)
+    #Negative Linear Relationship
+    #Correlation between highway-mpg and price
+    chart1 = charter.RegPlot(xaxis = "highway-mpg", yaxis = "price", dfData = dfNumCleaned)
+    #There is a line in the chart called the Regression line that indicates the relationship between the two variables
+    AddGraphToList(chart1)
+    #Weak Correlation: As long as the slope of the line is steep we can say there is a positive or negative correlation. 
+    #If the slope of the line is flattish then we can say there is no correlation
+    chart1 = charter.RegPlot(xaxis = "peak-rpm", yaxis = "price", dfData = dfNumCleaned)
+    #There is a line in the chart called the Regression line that indicates the relationship between the two variables
+    AddGraphToList(chart1)
+    
     return
 
-def CategoricalToQuantitativeData():
+def CorrelationStatistics():
     global dfWithHeaders
     dfCatToQuant = dfWithHeaders.copy(deep=True)
     # Categorical to Quantitative
