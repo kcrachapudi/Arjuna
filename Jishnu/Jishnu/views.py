@@ -65,7 +65,8 @@ def IBMWeek3(id):
         'IBMWeek3.html',
         dfInfos = W3.dfInfos,
         dfTables = W3.dfTables,
-        graphs = W3.graphs
+        graphs = W3.graphs,
+        notifications = W3.notifications
     )
 
 @app.route('/IBMWeek4')

@@ -24,5 +24,12 @@
         {% endfor %}
     </div>
 </div>
-
+<div class="col-md-12">
+    {% for notification in notifications %}
+    <div class="alert alert-success" role="alert">
+        {{notification | safe}}
+    </div>
+    {% endfor %}
+</div>
+</div>
 {% endblock %}

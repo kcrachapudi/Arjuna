@@ -23,6 +23,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Watson5.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Utils.py">
       <SubType>Code</SubType>
     </Compile>
