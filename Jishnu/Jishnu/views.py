@@ -4,6 +4,7 @@ from Jishnu import app
 import W1
 import W2
 import W3
+import W4
 import X
 
 @app.route('/')
@@ -69,15 +70,13 @@ def IBMWeek3(id):
         notifications = W3.notifications
     )
 
-@app.route('/IBMWeek4')
-def IBMWeek4():
-    #W2.ProcessAutosData()
-    #dfTables = []
-    #for df in W2.dfList:
-     #   dfTables.append(df.to_html(header="true", classes="table table-striped table-bordered table-condensed table-responsive", index = False))
-
+@app.route('/IBMWeek4/<id>')
+def IBMWeek4(id):
+    W4.ProcessAutosData(id)
     return render_template(
-        'IBMWeek2.html',
-       # dfList = W2.dfList
-        #dfTables = dfTables
+        'IBMWeek4.html',
+        dfInfos = W4.dfInfos,
+        dfTables = W4.dfTables,
+        graphs = W4.graphs,
+        notifications = W4.notifications
     )

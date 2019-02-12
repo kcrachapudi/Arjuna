@@ -3,17 +3,33 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h2>Autos Data Original</h2>
-        {{dfWithHeaders | safe}}
+        {% for dfInfo in dfInfos %}
+        <div class="alert alert-info" role="alert">
+            {{dfInfo | safe}}
+        </div>
+        {% endfor %}
     </div>
 </div>
 <div class="row">
     <div class="col-md-12">
-        {% for table in autostables %}
-        <h2>Autos Data Original</h2>
-        {{ table | safe}}
+        {% for dfTable in dfTables %}
+        {{ dfTable[1] | safe}}
         {% endfor %}
     </div>
 </div>
-
+<div class="row">
+    <div class="col-md-12">
+        {% for graph in graphs %}
+        <img src="{{graph}}" />
+        {% endfor %}
+    </div>
+</div>
+<div class="col-md-12">
+    {% for notification in notifications %}
+    <div class="alert alert-success" role="alert">
+        {{notification | safe}}
+    </div>
+    {% endfor %}
+</div>
+</div>
 {% endblock %}

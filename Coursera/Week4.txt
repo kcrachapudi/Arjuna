@@ -1,0 +1,35 @@
+Model Development
+we will examine model development by trying to predict the price of a car using our dataset. In this module, you'll learn about simple and multiple linear regression, model evaluation using visualization, 
+polynomial regression and pipelines, R-squared and MSE for in-sample evaluation, prediction and decision making, and how you can determine a fair value for a used car. 
+A model or estimator can be thought of as a mathematical equation used to predict the value given one or more other values. Relating one or more independent variables or features to dependent variables. 
+For example, you input a car models highway miles per gallon as the independent variable or feature, the output of the model or dependent variable is the price. 
+Usually, the more relevant data you have, the more accurate your model is. For example, you input multiple independent variables or features to your model. 
+Therefore, your model may predict a more accurate price for the car. To understand why more data is important, consider the following situation. You have two almost identical cars. 
+Pink cars sell for significantly less. You want to use your model to determine the price of two cars, one pink, one red. 
+If your models independent variables or features do not include color, your model will predict the same price for cars that may sell for much less. 
+In addition to getting more data, you can try different types of models. In this course you will learn about simple linear regression, multiple linear regression and polynomial regression.
+
+Model Evaluation using Visualization
+We'll look at Model Evaluation using Visualization. Regression plots are a good estimate of the relationship between two variables, the strength of the correlation, and the direction of the relationship (positive or negative). 
+The horizontal axis is the independent variable. The vertical axis is the dependent variable. Each point represents a different target point. The fitted line represents the predicted value. 
+There are several ways to plot a regression plot. A simple ways to use regplot from the seaborn library. First, "import seaborn." Then use the "regplot" function. 
+The parameter x is the name of the column that contains the dependent variable or feature. The parameter y, contains the name of the column that contains the name of the dependent variable or target. 
+The parameter data is the name of the dataframe. The result is given by the plot. The residual plot represents the error between the actual value. Examining the predicted value and actual value we see a difference. 
+We obtain that value by subtracting the predicted value, and the actual target value. We then plot that value on the vertical axis with the dependent variable as the horizontal axis. 
+Similarly, for the second sample, we repeat the process. Subtracting the target value from the predicted value. Then plotting the value accordingly. Looking at the plot gives us some insight into our data. 
+We expect to see the results to have zero mean, distributed evenly around the x axis with similar variance. There is no curvature. This type of residual plot suggests a linear plot is appropriate. 
+In this residual plot, there is a curvature. The values of the error change with x. For example, in the region, all the residual errors are positive. In this area, the residuals are negative. 
+In the final location, the error is large. The residuals are not randomly separated. This suggests the linear assumption is incorrect. This plot suggests a nonlinear function. 
+We will deal with this in the next section. In this plot, we see the variance of the residuals increases with x. Therefore, our model is incorrect. 
+We can use seaborn to create a residual plot. First, "import seabourn." We use the "residplot" function. The first parameter is a series of dependent variable or feature. 
+The second parameter is a series of dependent variable or target. We see in this case, the residuals have the curvature. A distribution plot counts the predicted value versus the actual value. 
+These plots are extremely useful for visualizing models with more than one independent variable or feature. Let's look at a simplified example. 
+We examined the vertical axis. We then count and plot the number of predicted points that are approximately equal to one. We then, count and plot the number of predicted points that are approximately equal to two. 
+We repeat the process. For predicted points, they are approximately equal to three. Then we repeat the process for the target values. 
+In this case, all the target values are approximately equal to two. The values of the targets and predicted values are continuous. A histogram is for discrete values. 
+Therefore, pandas will convert them to a distribution. The vertical axis is scaled to make the area under the distribution equal to one. This is an example of using a distribution plot. 
+The dependent variable or feature is price. The fitted values that result from the model are in blue. The actual values are red. 
+We see the predicted values for prices in the range from 40,000 to 50,000 are inaccurate. The prices in the region from 10,000 to 20,000 are much closer to the target value. 
+In this example, we use multiple features or independent variables. Comparing it to the plot on the last slide, we see predicted values are much closer to the target values. 
+Here's the code to create a distribution plot. The actual values are used as a parameter. We wanted distribution instead of a histogram. So we want the hist parameters set to false. 
+The color is red. The label is also included. The predicted values are included for the second plot. The rest of the parameters are set accordingly.
