@@ -1,6 +1,7 @@
 from datetime import datetime
 from flask import render_template
 from Jishnu import app
+import PyBasics
 import W1
 import W2
 import W3
@@ -41,6 +42,17 @@ def about():
         title='About',
         year=datetime.now().year,
         message='Your application description page.'
+    )
+
+@app.route('/Basics/<id>')
+def Basics(id):
+    PyBasics.Process(id)
+    return render_template(
+        'Basics.html',
+        dfInfos = PyBasics.dfInfos,
+        dfTables = PyBasics.dfTables,
+        graphs = PyBasics.graphs,
+        notifications = PyBasics.notifications
     )
 
 @app.route('/IBMWeek1')

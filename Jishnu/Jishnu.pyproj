@@ -67,6 +67,7 @@
     <Content Include="Jishnu\static\content\bootstrap\js\bootstrap.min.js" />
     <Content Include="Jishnu\static\content\bootstrap\js\bootstrap.min.js.map" />
     <Content Include="Jishnu\templates\Bootstrap.html" />
+    <Content Include="Jishnu\templates\Basics.html" />
     <Content Include="Jishnu\templates\IBMWeek4.html" />
     <Content Include="Jishnu\templates\IBMWeek3.html" />
     <Content Include="Jishnu\templates\IBMWeek2.html" />
