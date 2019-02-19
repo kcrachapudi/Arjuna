@@ -91,6 +91,9 @@ class FileProcessor:
         return
 
 class Charter:
+    def __init__(self):
+        pass
+
     def BuildGraph(self, x_coordinates, y_coordinates, type="png"):
         img = io.BytesIO()
         plt.plot(x_coordinates, y_coordinates)
@@ -158,14 +161,56 @@ class Charter:
     def RegPlot(self, xaxis = None, yaxis = None, dfData = None, imgformat = "png" ):
         img = io.BytesIO()
         sns.regplot(x = xaxis, y = yaxis, data = dfData)
+        plt.ylim(0,)
+        plt.savefig(img, format = imgformat)
+        img.seek(0)
+        graph_url = base64.b64encode(img.getvalue()).decode()
+        plt.close()
+        return 'data:image/png;base64,{}'.format(graph_url)
+
+    def ResidPlot(self, xaxis = None, yaxis = None, dfData = None, imgformat = "png" ):
+        img = io.BytesIO()
+        sns.residplot(dfData[xaxis], dfData[yaxis])
+        plt.savefig(img, format = imgformat)
+        img.seek(0)
+        graph_url = base64.b64encode(img.getvalue()).decode()
+        plt.close()
+        return 'data:image/png;base64,{}'.format(graph_url)
+
+    def DistPlot(self, yhat = None, ytarget = None, charttitle=None, distlabel=None, xlabel = None, ylabel = None, axlabel = None,  dfData = None, imgformat = "png" ):
+        img = io.BytesIO()
+        ax1 = sns.distplot(dfData[ytarget], hist=False, color="r", label=axlabel)
+        sns.distplot(yhat, hist=False, color="b", label=distlabel, ax=ax1)
+        plt.title(charttitle)
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
         plt.savefig(img, format = imgformat)
         img.seek(0)
         graph_url = base64.b64encode(img.getvalue()).decode()
         plt.close()
         return 'data:image/png;base64,{}'.format(graph_url)
         
+    def PolyPlot(model, independent_variable, dependent_variabble, Name):
+        x_new = np.linspace(15, 55, 100)
+        y_new = model(x_new)
+        plt.plot(independent_variable, dependent_variabble, '.', x_new, y_new, '-')
+        plt.title('Polynomial Fit with Matplotlib for Price ~ Length')
+        ax = plt.gca()
+        ax.set_facecolor((0.898, 0.898, 0.898))
+        fig = plt.gcf()
+        plt.xlabel(Name)
+        plt.ylabel('Price of Cars')
+        plt.savefig(img, format = imgformat)
+        img.seek(0)
+        graph_url = base64.b64encode(img.getvalue()).decode()
+        plt.close()
+        return 'data:image/png;base64,{}'.format(graph_url)
+
 class HTMLHelper:
     DefaultTableClasses = "table table-striped table-bordered table-condensed table-responsive"
+    def __init__(self):
+        pass
+
     def GetHTMLTableFromDataFrame(self, df, styleclasses = None, indexer = False):     
         dfTable = None
         if df is not None:
@@ -177,3 +222,27 @@ class HTMLHelper:
 
     def AddMarkup(htmlString):
         return 
+
+class Helper:
+    def __init__(self):
+        pass
+
+    def PrintNumpy(self, nparray, describe = False, showstats = False):
+        if(describe):
+            print("The size of numpy array is " + str(nparray.size))
+            print("The number of dimensions of numpy array is " + str(nparray.ndim))
+            print("The shape of numpy array is " + str(nparray.shape))
+
+        for x in nparray:
+            if(nparray.dtype == "str"):
+                print(x)
+            else:
+                print(str(x))
+
+        if(showstats):
+            print("The mean of numpy array is " + str(nparray.mean()))
+            print("The standard deviation of numpy array is " + str(nparray.std()))
+            print("The min value in numpy array is " + str(nparray.min()))
+            print("The max value in numpy array is " + str(nparray.min()))
+
+

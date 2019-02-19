@@ -259,3 +259,10 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/StatTrek
+/IBMBrain/IBMEnv/Lib/site-packages/yaml/__init__.py
+/IBMBrain/IBMEnv/Lib/site-packages/yaml
+/IBMBrain/IBMEnv/Lib/site-packages/tornado-5.1.1.dist-info
+/IBMBrain/IBMEnv/Lib/site-packages/tornado
+/IBMBrain/IBMEnv/Lib/site-packages/sklearn
+/IBMBrain/IBMEnv/Lib/site-packages/setuptools-40.7.1.dist-info

@@ -23,6 +23,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Repo.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PyBasics.py" />
+    <Compile Include="W4.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Watson5.py">
       <SubType>Code</SubType>
     </Compile>
